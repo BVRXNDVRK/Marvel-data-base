@@ -49,6 +49,7 @@ class CharList extends Component {
                 charEnded: ended
             }
         ));
+        
     }
 
     onError = () => {
