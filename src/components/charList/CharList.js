@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
+import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
@@ -34,7 +35,7 @@ const CharList = (props) => {
         setCharList(charList => [...charList, ...newCharList]);
         setNewitemsLoading(newitemsLoading => false);
         setOffset(offset => offset + 9);
-        setCharEnded(charEnded => ended);    
+        setCharEnded(charEnded => ended); 
     }
 
     const onCharClick = (charId) => {
@@ -56,9 +57,9 @@ const CharList = (props) => {
             }
 
             return (
-                <li className="char__item"
+                <CSSTransition key={item.id} timeout={500} classNames="char">
+                    <li className="char__item"
                     tabIndex={0}
-                    key={item.id}
                     ref={el => itemRefs.current[i] = el}    
                     onClick={() => {
                         onCharClick(item.id)
@@ -72,13 +73,16 @@ const CharList = (props) => {
                     }}>
                         <img src={item.thumbnail} alt={`${item.name}`} style={imgStyle}/>
                         <div className="char__name">{item.name}</div>
-                </li>
+                    </li>
+                </CSSTransition>
             )
         });
 
         return (
             <ul className="char__grid">
-                {items}    
+                <TransitionGroup component={null}>
+                    {items}      
+                </TransitionGroup>  
             </ul>
         )
     }
