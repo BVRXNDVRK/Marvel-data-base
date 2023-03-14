@@ -15,7 +15,6 @@ const App = () => {
         <Router>
             <div className="app"> 
                 <AppHeader/>
-                {/* <AppBanner/> */}
                 <main>
                     <Suspense fallback={<Spinner/>}>
                         <Routes>
