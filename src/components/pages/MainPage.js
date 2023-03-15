@@ -7,10 +7,15 @@ import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 import decoration from '../../resources/img/vision.png';
 
 const MainPage = () => {
-    const [selectedChar, setSelectedChar] = useState(null);
+    const [selectedChar, setSelectedChar] = useState(null),
+          [charactersInList, setCharactersInList] = useState({});
 
     const onCharSelected = (id) => {
         setSelectedChar(id);
+    }
+
+    const onCharListUpdated = (charList) => {
+        setCharactersInList(charList);
     }
 
     return(
@@ -20,14 +25,14 @@ const MainPage = () => {
             </ErrorBoundary>
             <div className="char__content">
                 <ErrorBoundary>
-                    <CharList onCharSelected={onCharSelected} charId={selectedChar}/>
+                    <CharList onCharSelected={onCharSelected} onCharListUpdated={onCharListUpdated} charId={selectedChar}/>
                 </ErrorBoundary>
                 <div class="char__content-wrapper">
                     <ErrorBoundary>
                         <CharInfo charId={selectedChar}/>
                     </ErrorBoundary>
                     <ErrorBoundary>
-                        <CharSearchPanel/>
+                        <CharSearchPanel charactersInList={charactersInList}/>
                     </ErrorBoundary>
                 </div>
             </div>

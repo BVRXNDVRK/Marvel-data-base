@@ -1,3 +1,5 @@
+@import '../../style/mixins';
+
 .search {
     &__panel {
         padding: 25px;
@@ -10,18 +12,27 @@
 
     &__form {
         &-label {
-            font-family: 'Roboto Condensed';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 18px;
-            line-height: 21px;
+            @include text;
             color: #000000;
         }
 
         &-wrapper {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-top: 18px;
+        }
+
+        &-text {
+            &_green {
+                @include text;
+                color: green;
+            }
+
+            &_red {
+                @include text;
+                color: red;
+            }
         }
     }
 
@@ -35,11 +46,7 @@
         
         &-error {
             margin-top: 25px;
-            font-family: 'Roboto Condensed';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 18px;
-            line-height: 21px;
+            @include text;
             color: #9F0013;
         }
     }
