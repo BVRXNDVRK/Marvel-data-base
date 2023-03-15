@@ -6,7 +6,8 @@ import Spinner from '../spinner/Spinner';
 const Page404 = lazy(() => import('../pages/404')),
       MainPage = lazy(() => import('../pages/MainPage')),
       ComicsPage = lazy(() => import('../pages/ComicsPage')),
-      SingleComicPage = lazy(() => import('../pages/SingleComicPage'));
+      SingleComicPage = lazy(() => import('../pages/SingleComicPage')),
+      SingleCharPage = lazy(() => import('../pages/SingleCharPage'));
 
 const App = () => {
 
@@ -18,6 +19,8 @@ const App = () => {
                     <Suspense fallback={<Spinner/>}>
                         <Routes>
                             <Route path="/" element={<MainPage/>}/>
+
+                            <Route path="/:charId" element={<SingleCharPage/>}/>
             
                             <Route path="/comics" element={<ComicsPage/>}/>
                             

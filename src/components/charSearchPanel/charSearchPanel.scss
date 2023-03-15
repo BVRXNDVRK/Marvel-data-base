@@ -26,12 +26,12 @@
         &-text {
             &_green {
                 @include text;
-                color: green;
+                color: #03710E;
             }
 
             &_red {
                 @include text;
-                color: red;
+                color: #9F0013;
             }
         }
     }

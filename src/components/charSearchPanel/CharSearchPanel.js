@@ -1,17 +1,28 @@
 import {useState} from 'react';
+import {Link} from 'react-router-dom';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import './charSearchPanel.scss';
 
 const CharSearchPanel = (props) => {
     const [isFinded, setIsFinded] = useState(null),
-          [charName, setCharName] = useState('');
+          [charName, setCharName] = useState(''),
+          [charId, setCharId] = useState();
 
     const findCharacter = (characters, nameFromInput) => {
         setCharName(nameFromInput);
+
         const charNames = characters.map(item => {return item.name});
+
+        characters.forEach(char => {
+           if (char.name == nameFromInput) {
+            setCharId(char.id);     
+           } 
+        })
+
         return charNames.find(name => name == nameFromInput) ? true : false;
     }
+
 
     return (
         <div class="search__panel">
@@ -52,9 +63,9 @@ const CharSearchPanel = (props) => {
                     {isFinded === null || isFinded === false ? null : 
                     <div className="search__form-wrapper">
                         <div className="search__form-text_green">There is! Visit {charName} page?</div>
-                        <a className="button button__secondary">
+                        <Link to={`/${charId}`} className="button button__secondary">
                             <div className="inner">To page</div>
-                        </a>
+                        </Link>
                     </div>}
                 </Form>
             </Formik>
