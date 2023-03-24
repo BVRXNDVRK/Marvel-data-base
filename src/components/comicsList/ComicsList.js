@@ -5,12 +5,31 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
 import './comicsList.scss';
 
+const setContent = (process, Component, newitemsLoading) => {
+    switch(process) {
+        case 'waiting':
+            return <Spinner/>;
+            break;
+        case 'loading':
+            return newitemsLoading ? <Component/> : <Spinner/>;
+            break;
+        case 'confirmed':
+            return <Component/>;
+            break;
+        case 'error':
+            return <ErrorMessage/>;
+            break;
+        default:
+            throw new Error('Unexpected process case');
+    }
+}
+
 const ComicsList = () => {
     const [comicsList, setComicsList] = useState([]),
           [newitemsLoading, setNewitemsLoading] = useState(false),
           [offset, setOffset] = useState(210),
           [comicsEnded, setComicsEnded] = useState(false),
-          {loading, error, getAllComics} = useMarvelService();
+          {loading, error, getAllComics, process, setProcess} = useMarvelService();
 
     useEffect(() => {
         onRequest(offset, true);
@@ -19,7 +38,8 @@ const ComicsList = () => {
     const onRequest = (offset, initial) => {
         initial ? setNewitemsLoading(false) : setNewitemsLoading(true);   
         getAllComics(offset)
-            .then(onComicsListLoaded);
+            .then(onComicsListLoaded)
+            .then(() => setProcess('confirmed'));
     }
 
     const onComicsListLoaded = (newComicsList) => {
@@ -61,16 +81,10 @@ const ComicsList = () => {
         )
     }
 
-    const items = renderItems(comicsList),
-          spinner = loading && !newitemsLoading ? <Spinner/> : null,
-          errorMessage =  error ? <ErrorMessage/> : null;
-
     return (        
 
         <div className="comics__list">
-            {errorMessage}
-            {spinner}
-            {items}
+            {setContent(process, () => renderItems(comicsList), newitemsLoading)} 
 
             <button 
             className="button button__main button__long"
